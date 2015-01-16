@@ -1,4 +1,4 @@
-1. Plugin uses libcurl-devel, so it has to bee installed on the system.
+1. Plugin uses libcurl-devel, so it has to be installed on the system.
 2. New ./configure options have been added: --with-libcurl, --without-libcurl
 3. Plugin can be enabled and configured through slurm.conf, here is an example:
 
