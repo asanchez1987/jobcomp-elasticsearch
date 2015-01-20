@@ -5,6 +5,7 @@
 3. Plugin can be enabled and configured through slurm.conf, here is an example:
 
     JobCompType=jobcomp/elasticsearch
+    
     JobCompLoc=http://yourelasticserver:9200
   
 4. Once data is inserted into elasticsearch, it is a good idea to visualize
