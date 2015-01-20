@@ -10,8 +10,7 @@
   
 4. Once data is inserted into elasticsearch, it is a good idea to visualize
 it through a web layer such as Kibana:
-
-    http://www.elasticsearch.org/overview/kibana/
+http://www.elasticsearch.org/overview/kibana/
     
 5. Some screenshots have been placed inside screenshots/ directory
 
