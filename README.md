@@ -11,6 +11,7 @@ It is a good idea to have a web layer over your ElasticSearch server, such as [K
 
 Note that the plugin has **libcurl-devel** library as a dependency, so you can use these two
 **configure** options:
+
     --with-libcurl (default)
     --without-libcurl
 
