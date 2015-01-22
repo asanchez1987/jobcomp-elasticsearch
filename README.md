@@ -12,7 +12,7 @@ It is a good idea to have a web layer over your ElasticSearch server, such as [K
 Note that the plugin has **libcurl-devel** library as a dependency, so you can use these two
 **configure** options:
 
-    --with-libcurl (default)
+    --with-libcurl (used by default, so not necessary)
     --without-libcurl
 
 Here you can find some [Screenshots](https://github.com/asanchez1987/jobcomp-elasticsearch/wiki/Screenshots).
