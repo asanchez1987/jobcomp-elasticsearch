@@ -1,13 +1,19 @@
-Plugin uses libcurl-devel, so it has to be installed on the system.
+## Introduciton
 
-New ./configure options have been added: --with-libcurl, --without-libcurl
+**jobcomp/elasticsearch** is a job completion plugin that inserts the information related
+to finished jobs (COMPLETED, CANCELLED, FAILED, TIMEOUT, NODE_FAIL) in a custom
+[ElasticSearch](http://www.elasticsearch.org/) server.
 
-See the INSTALL.md file for installation instructions.
+If data can't be indexed for whatever reason (server not reachable, index in readonly mode, etc.),
+the plugin saves the job information in a state file for future retries.
 
-Once data is inserted into elasticsearch, it is a good idea to visualize
-it through a web layer such as Kibana:
-http://www.elasticsearch.org/overview/kibana/
-    
-Some screenshots can be found in the  [Screenshots](https://github.com/asanchez1987/jobcomp-elasticsearch/wiki/Screenshots) wiki page
+It is a good idea to have a web layer over your ElasticSearch server, such as [Kibana](http://www.elasticsearch.org/overview/kibana/), in order to visualize the data.
 
-Any suggestions are welcomed to asanchez1987@gmail.com
+Note that the plugin has **libcurl-devel** library as a dependency, so you can use these two
+**configure** options: --with-libcurl (default) and --without-libcurl.
+
+Here you can find some [Screenshots](https://github.com/asanchez1987/jobcomp-elasticsearch/wiki/Screenshots).
+
+Please, see the INSTALL.md file for installation instructions.
+
+Any suggestions are more than welcome to asanchez1987@gmail.com
