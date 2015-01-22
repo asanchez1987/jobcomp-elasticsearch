@@ -17,6 +17,6 @@ Note that the plugin has **libcurl-devel** library as a dependency, so you can u
 
 Here you can find some [Screenshots](https://github.com/asanchez1987/jobcomp-elasticsearch/wiki/Screenshots).
 
-Please, see the [INSTALL.md]https://github.com/asanchez1987/jobcomp-elasticsearch/blob/master/INSTALL.md file for installation instructions.
+Please, see the [INSTALL.md](https://github.com/asanchez1987/jobcomp-elasticsearch/blob/master/INSTALL.md) file for installation instructions.
 
 Any suggestions are more than welcome to asanchez1987@gmail.com
