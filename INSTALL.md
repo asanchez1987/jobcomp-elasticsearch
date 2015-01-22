@@ -1,6 +1,6 @@
 ## Installation
 
-    # change directory to your slurm source directory
+    # Change directory to your SLURM source directory
     cd slurm-14.11.3/
     wget -O jobcomp_es-0.1.tar.gz https://github.com/asanchez1987/jobcomp-elasticsearch/archive/v0.1.tar.gz
     tar xf ./jobcomp_es-0.1.tar.gz --strip-components=1
