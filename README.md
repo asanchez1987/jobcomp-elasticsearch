@@ -1,6 +1,6 @@
 ## Introduciton
 
-**jobcomp/elasticsearch** is a job completion plugin that inserts the information related
+**jobcomp/elasticsearch** is a SLURM job completion plugin that inserts the information related
 to finished jobs (COMPLETED, CANCELLED, FAILED, TIMEOUT, NODE_FAIL) in a custom
 [ElasticSearch](http://www.elasticsearch.org/) server.
 
@@ -10,7 +10,9 @@ the plugin saves the job information in a state file for future retries.
 It is a good idea to have a web layer over your ElasticSearch server, such as [Kibana](http://www.elasticsearch.org/overview/kibana/), in order to visualize the data.
 
 Note that the plugin has **libcurl-devel** library as a dependency, so you can use these two
-**configure** options: --with-libcurl (default) and --without-libcurl.
+**configure** options:
+    --with-libcurl (default)
+    --without-libcurl
 
 Here you can find some [Screenshots](https://github.com/asanchez1987/jobcomp-elasticsearch/wiki/Screenshots).
 
