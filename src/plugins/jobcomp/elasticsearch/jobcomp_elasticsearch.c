@@ -256,6 +256,8 @@ int _load_pending_jobs()
 	data_size = _read_file(state_file, &saved_data);
 	if (data_size <= 0 || saved_data == NULL) {
 		slurm_mutex_unlock(&save_lock);
+		xfree(saved_data);
+		xfree(state_file);
 		return rc;
 	}
 	slurm_mutex_unlock(&save_lock);
@@ -267,6 +269,7 @@ int _load_pending_jobs()
 		      pend_jobs.nelems);
 	}
 	free_buf(buffer);
+	xfree(state_file);
 
 	return rc;
 
@@ -334,7 +337,7 @@ int _index_job(const char *jobcomp)
 			rc = SLURM_ERROR;
 		} else {
 			char *token, *response;
-			response = strdup(chunk.message);
+			response = xstrdup(chunk.message);
 			token = strtok(chunk.message, " ");
 			if (token == NULL) {
 				debug("Could not receive the HTTP response "
@@ -357,7 +360,7 @@ int _index_job(const char *jobcomp)
 					debug3("HTTP Response:\n%s", response);
 					rc = SLURM_ERROR;
 				} else {
-					token = strtok(jobcomp, ",");
+					token = strtok((char *)jobcomp, ",");
 					token = strtok(token, ":");
 					token = strtok(NULL, ":");
 					debug
@@ -365,9 +368,12 @@ int _index_job(const char *jobcomp)
 					     "indexed into elasticsearch",
 					     token);
 				}
+				xfree(chunk.message);
+				xfree(response);
 			}
 		}
 		curl_easy_cleanup(curl_handle);
+		xfree(url);
 	}
 	curl_global_cleanup();
 
@@ -497,7 +503,7 @@ int _save_state()
 void _push_pending_job(char *j)
 {
 	xrealloc(pend_jobs.jobs, sizeof(char *) * (pend_jobs.nelems + 1));
-	pend_jobs.jobs[pend_jobs.nelems] = j;
+	pend_jobs.jobs[pend_jobs.nelems] = xstrdup(j);
 	pend_jobs.nelems++;
 }
 
@@ -515,10 +521,13 @@ void _update_pending_jobs(int *m)
 			xrealloc(aux.jobs, sizeof(char *) * (aux.nelems + 1));
 			aux.jobs[aux.nelems] = xstrdup(pend_jobs.jobs[i]);
 			aux.nelems++;
+			xfree(pend_jobs.jobs[i]);
 		}
 	}
 
-	xrealloc(pend_jobs.jobs, sizeof(char *) * (aux.nelems));
+	xfree(pend_jobs.jobs);
+	//pend_jobs.jobs = xmalloc(1);
+	//xrealloc(pend_jobs.jobs, sizeof(char *) * (aux.nelems));
 	pend_jobs = aux;
 }
 
@@ -532,11 +541,13 @@ int _index_retry()
 
 	for (i = 0; i < pend_jobs.nelems; i++) {
 		pop_marks[i] = 0;
+		debug("TESTTT: %s", pend_jobs.jobs[i]);
 		if (_index_job(pend_jobs.jobs[i]) == SLURM_ERROR)
 			rc = SLURM_ERROR;
 		else {
 			marks = 1;
 			pop_marks[i] = 1;
+			xfree(pend_jobs.jobs[i]);
 		}
 	}
 
@@ -618,7 +629,6 @@ extern int slurm_jobcomp_set_location(char *location)
 		return SLURM_ERROR;
 	}
 
-	xfree(log_url);
 	log_url = xstrdup(location);
 
 	curl_global_init(CURL_GLOBAL_ALL);
@@ -892,7 +902,7 @@ extern int slurm_jobcomp_log_record(struct job_record *job_ptr)
 			acc_aux[nparents] = xstrdup(assoc_ptr->acct);
 			nparents++;
 			assoc_rec.id = assoc_ptr->parent_id;
-
+			xfree(assoc_rec.cluster);
 			memset(&assoc_rec, 0,
 			       sizeof(slurmdb_association_rec_t));
 			assoc_rec.cluster = xstrdup(cluster);
@@ -904,10 +914,13 @@ extern int slurm_jobcomp_log_record(struct job_record *job_ptr)
 		for (i = nparents - 1; i >= 0; i--) {
 			xstrcat(parent_accounts, "/");
 			xstrcat(parent_accounts, acc_aux[i]);
+			xfree(acc_aux[i]);
 		}
 
 		sprintf(tmp, ",\"parent_accounts\":\"%s\"", parent_accounts);
 		xstrcat(buffer, tmp);
+		xfree(acc_aux);
+		xfree(assoc_rec.cluster);
 	}
 
 	xstrcat(buffer, "}");
@@ -922,6 +935,12 @@ extern int slurm_jobcomp_log_record(struct job_record *job_ptr)
 			rc = _index_retry();
 		}
 	}
+
+	xfree(script_str);
+	xfree(parent_accounts);
+	xfree(buffer);
+	xfree(tmp);
+	xfree(script);
 
 	return rc;
 }
