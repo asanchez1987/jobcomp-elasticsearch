@@ -880,6 +880,7 @@ extern int slurm_jobcomp_log_record(struct job_record *job_ptr)
 		sprintf(tmp, ",\"script\":\"%s\"", script_str);
 		xstrcat(buffer, tmp);
 		xfree(script_str);
+		xfree(script);
 	}
 
 	if (job_ptr->assoc_ptr) {
@@ -922,6 +923,7 @@ extern int slurm_jobcomp_log_record(struct job_record *job_ptr)
 		xstrcat(buffer, tmp);
 		xfree(acc_aux);
 		xfree(assoc_rec.cluster);
+		xfree(parent_accounts);
 	}
 
 	xstrcat(buffer, "}");
@@ -937,10 +939,8 @@ extern int slurm_jobcomp_log_record(struct job_record *job_ptr)
 		}
 	}
 
-	xfree(parent_accounts);
 	xfree(buffer);
 	xfree(tmp);
-	xfree(script);
 
 	return rc;
 }
