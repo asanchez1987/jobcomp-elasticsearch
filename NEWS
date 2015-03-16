@@ -1,5 +1,9 @@
 This file describes changes in recent versions of jobcomp/elasticsearch.
 
+* Changes in jobcomp/elasticsearch v0.4
+=======================================
+-- Moved two xfree to proper location
+
 * Changes in jobcomp/elasticsearch v0.3
 =======================================
 -- Fixed segfault processing jobs without script
