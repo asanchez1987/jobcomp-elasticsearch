@@ -879,6 +879,7 @@ extern int slurm_jobcomp_log_record(struct job_record *job_ptr)
 		xrealloc(tmp, sizeof(char) * strlen(script_str) + 1 + 12);
 		sprintf(tmp, ",\"script\":\"%s\"", script_str);
 		xstrcat(buffer, tmp);
+		xfree(script_str);
 	}
 
 	if (job_ptr->assoc_ptr) {
@@ -936,7 +937,6 @@ extern int slurm_jobcomp_log_record(struct job_record *job_ptr)
 		}
 	}
 
-	xfree(script_str);
 	xfree(parent_accounts);
 	xfree(buffer);
 	xfree(tmp);
