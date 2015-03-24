@@ -1,5 +1,9 @@
 This file describes changes in recent versions of jobcomp/elasticsearch.
 
+* Changes in jobcomp/elasticsearch v0.5
+=======================================
+-- Fixed some string realloc bugs
+
 * Changes in jobcomp/elasticsearch v0.4
 =======================================
 -- Moved two xfree to proper location
