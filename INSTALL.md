@@ -1,9 +1,9 @@
 ## Installation
 
     # Change directory to your SLURM source directory
-    cd slurm-14.11.3/
-    wget -O jobcomp_es-0.5.tar.gz https://github.com/asanchez1987/jobcomp-elasticsearch/archive/v0.5.tar.gz
-    tar xf ./jobcomp_es-0.5.tar.gz --strip-components=1
+    cd slurm-14.11.6/
+    wget -O jobcomp_es-0.6.tar.gz https://github.com/asanchez1987/jobcomp-elasticsearch/archive/v0.6.tar.gz
+    tar xf ./jobcomp_es-0.6.tar.gz --strip-components=1
     ./autogen.sh
     ./configure
     # Ensure libcurl is usable:
