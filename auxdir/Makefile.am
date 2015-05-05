@@ -26,10 +26,12 @@ EXTRA_DIST = \
     x_ac_gpl_licensed.m4 \
     x_ac_hwloc.m4 \
     x_ac_iso.m4 \
+    x_ac_json.m4 \
     x_ac_lua.m4 \
     x_ac_man2html.m4 \
     x_ac_munge.m4 \
     x_ac_ncurses.m4 \
+    x_ac_netloc.m4 \
     x_ac_nrt.m4 \
     x_ac_pam.m4 \
     x_ac_printf_null.m4 \
@@ -38,5 +40,4 @@ EXTRA_DIST = \
     x_ac_setproctitle.m4 \
     x_ac_sgi_job.m4 \
     x_ac_slurm_ssl.m4 \
-    x_ac_sun_const.m4 \
-    x_ac_xcpu.m4
+    x_ac_sun_const.m4
