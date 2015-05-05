@@ -25,7 +25,7 @@ Plugin can be enabled and configured through slurm.conf, here is an example:
     Example:
     
     JobCompType=jobcomp/elasticsearch
-    obCompLoc=http://localhost:9200
+    JobCompLoc=http://localhost:9200
 
 Make sure that the ElasticSearch server is reachable from the Slurm controller host.
 
