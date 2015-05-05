@@ -19,4 +19,6 @@ Here you can find some [Screenshots](https://github.com/asanchez1987/jobcomp-ela
 
 Please, see the [INSTALL.md](https://github.com/asanchez1987/jobcomp-elasticsearch/blob/master/INSTALL.md) file for installation instructions.
 
+**Plugin is already merged in the SLURM master branch, so no need to install it separetely**
+
 Any suggestions are more than welcome to asanchez1987@gmail.com
