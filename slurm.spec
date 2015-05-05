@@ -17,7 +17,6 @@
 # --with cray_alps   %_with_cray_alps   1    build for a Cray system with ALPS
 # --with cray_network %_with_cray_network 1  build for a non-Cray system with a Cray network
 # --without debug    %_without_debug    1    don't compile with debugging symbols
-# --without elasticsearch %_without_elasticsearch 1 don't build elasticsearch job completion plugin
 # --with lua         %_with_lua         1    build Slurm lua bindings (proctrack only for now)
 # --without munge    %_without_munge    1    don't build auth-munge RPM
 # --with mysql       %_with_mysql       1    require mysql support
@@ -82,21 +81,19 @@
 %slurm_without_opt lua
 %slurm_without_opt partial-attach
 
-%slurm_without_opt elasticsearch
-
 %if %{slurm_with cray_alps}
 %slurm_with_opt sgijob
 %endif
 
-Name:    slurm
-Version: 14.11.6
-Release: 1%{?dist}
+Name:    see META file
+Version: see META file
+Release: see META file
 
 Summary: Slurm Workload Manager
 
 License: GPL
 Group: System Environment/Base
-Source: slurm-14.11.6.tar.bz2
+Source: %{name}-%{version}-%{release}.tgz
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}
 URL: http://slurm.schedmd.com/
 
@@ -161,10 +158,6 @@ BuildRequires: hwloc-devel
 BuildRequires: gtk2-devel
 BuildRequires: glib2-devel
 BuildRequires: pkgconfig
-%endif
-
-%if %{slurm_with elasticsearch}
-BuildRequires: libcurl-devel
 %endif
 
 %ifnos aix5.3
@@ -397,7 +390,7 @@ utilites will provide more information and greater depth of understanding
 %package pam_slurm
 Summary: PAM module for restricting access to compute nodes via Slurm
 Group: System Environment/Base
-Requires: slurm slurm-devel
+Requires: slurm
 BuildRequires: pam-devel
 Obsoletes: pam_slurm
 %description pam_slurm
@@ -416,19 +409,10 @@ Requires: slurm
 Gives the ability for Slurm to use Berkeley Lab Checkpoint/Restart
 %endif
 
-%if %{slurm_with elasticsearch}
-%package elasticsearch
-Summary: Elasticsearch Slurm Plugin
-Group: Development/System
-Requires: slurm libcurl
-%description elasticsearch
-Elasticsearch job completion plugin
-%endif
-
 #############################################################################
 
 %prep
-%setup -n slurm-14.11.6
+%setup -n %{name}-%{version}-%{release}
 
 %build
 %configure \
@@ -440,7 +424,6 @@ Elasticsearch job completion plugin
 	%{?with_proctrack:--with-proctrack=%{?with_proctrack}}\
 	%{?with_cpusetdir:--with-cpusetdir=%{?with_cpusetdir}} \
 	%{?with_apbasildir:--with-apbasildir=%{?with_apbasildir}} \
-	%{?with_xcpu:--with-xcpu=%{?with_xcpu}} \
 	%{?with_mysql_config:--with-mysql_config=%{?with_mysql_config}} \
 	%{?with_pg_config:--with-pg_config=%{?with_pg_config}} \
 	%{?with_ssl:--with-ssl=%{?with_ssl}} \
@@ -451,15 +434,14 @@ Elasticsearch job completion plugin
 	%{?slurm_with_salloc_background:--enable-salloc-background} \
 	%{!?slurm_with_readline:--without-readline} \
 	%{?slurm_with_multiple_slurmd:--enable-multiple-slurmd} \
-	%{!?slurm_with_elasticsearch:--without-libcurl} \
 	%{?with_cflags}
 
-make %{?_smp_mflags}
+%__make %{?_smp_mflags}
 
 %install
 rm -rf "$RPM_BUILD_ROOT"
-DESTDIR="$RPM_BUILD_ROOT" make install
-DESTDIR="$RPM_BUILD_ROOT" make install-contrib
+DESTDIR="$RPM_BUILD_ROOT" %__make install
+DESTDIR="$RPM_BUILD_ROOT" %__make install-contrib
 
 %ifos aix5.3
    mv ${RPM_BUILD_ROOT}%{_bindir}/srun ${RPM_BUILD_ROOT}%{_sbindir}
@@ -604,6 +586,8 @@ test -f $RPM_BUILD_ROOT/usr/lib/systemd/system/slurmctld.service	&&
   echo /usr/lib/systemd/system/slurmctld.service		>> $LIST
 test -f $RPM_BUILD_ROOT/usr/lib/systemd/system/slurmd.service	&&
   echo /usr/lib/systemd/system/slurmd.service		>> $LIST
+test -f $RPM_BUILD_ROOT/%{_bindir}/netloc_to_topology		&&
+  echo %{_bindir}/netloc_to_topology			>> $LIST
 
 test -f $RPM_BUILD_ROOT/opt/modulefiles/slurm/%{version}-%{release} &&
   echo /opt/modulefiles/slurm/%{version}-%{release} >> $LIST
@@ -625,8 +609,8 @@ libdir=%{_libdir}
 Cflags: -I\${includedir}
 Libs: -L\${libdir} -lslurm
 Description: Slurm API
-Name: slurm
-Version: 14.11.6
+Name: %{name}
+Version: %{version}
 EOF
 
 %if %{slurm_with bluegene}
@@ -694,6 +678,8 @@ test -f $RPM_BUILD_ROOT/%{_perldir}/auto/Slurmdb/Slurmdb.bs    &&
 
 LIST=./plugins.files
 touch $LIST
+test -f $RPM_BUILD_ROOT/%{_libdir}/slurm/acct_gather_energy_cray.so  &&
+   echo %{_libdir}/slurm/acct_gather_energy_cray.so  >> $LIST
 test -f $RPM_BUILD_ROOT/%{_libdir}/slurm/acct_gather_energy_ipmi.so  &&
    echo %{_libdir}/slurm/acct_gather_energy_ipmi.so  >> $LIST
 test -f $RPM_BUILD_ROOT/%{_libdir}/slurm/acct_gather_energy_rapl.so  &&
@@ -702,18 +688,22 @@ test -f $RPM_BUILD_ROOT/%{_libdir}/slurm/acct_gather_infiniband_ofed.so &&
    echo %{_libdir}/slurm/acct_gather_infiniband_ofed.so >> $LIST
 test -f $RPM_BUILD_ROOT/%{_libdir}/slurm/acct_gather_profile_hdf5.so &&
    echo %{_libdir}/slurm/acct_gather_profile_hdf5.so >> $LIST
+test -f $RPM_BUILD_ROOT/%{_libdir}/slurm/burst_buffer_cray.so        &&
+   echo %{_libdir}/slurm/burst_buffer_cray.so        >> $LIST
 test -f $RPM_BUILD_ROOT/%{_libdir}/slurm/crypto_openssl.so           &&
    echo %{_libdir}/slurm/crypto_openssl.so           >> $LIST
 test -f $RPM_BUILD_ROOT/%{_libdir}/slurm/ext_sensors_rrd.so          &&
    echo %{_libdir}/slurm/ext_sensors_rrd.so          >> $LIST
+test -f $RPM_BUILD_ROOT/%{_libdir}/slurm/jobcomp_elasticsearch.so    &&
+   echo %{_libdir}/slurm/jobcomp_elasticsearch.so    >> $LIST
 test -f $RPM_BUILD_ROOT/%{_libdir}/slurm/launch_slurm.so             &&
    echo %{_libdir}/slurm/launch_slurm.so             >> $LIST
 test -f $RPM_BUILD_ROOT/%{_libdir}/slurm/launch_aprun.so             &&
    echo %{_libdir}/slurm/launch_aprun.so             >> $LIST
+test -f $RPM_BUILD_ROOT/%{_libdir}/slurm/power_cray.so               &&
+   echo %{_libdir}/slurm/power_cray.so               >> $LIST
 test -f $RPM_BUILD_ROOT/%{_libdir}/slurm/select_bluegene.so          &&
    echo %{_libdir}/slurm/select_bluegene.so          >> $LIST
-test -f $RPM_BUILD_ROOT/%{_libdir}/slurm/slurmctld_dynalloc.so       &&
-   echo %{_libdir}/slurm/slurmctld_dynalloc.so       >> $LIST
 test -f $RPM_BUILD_ROOT/%{_libdir}/slurm/task_affinity.so            &&
    echo %{_libdir}/slurm/task_affinity.so            >> $LIST
 test -f $RPM_BUILD_ROOT/%{_libdir}/slurm/task_cgroup.so              &&
@@ -764,6 +754,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_libdir}/slurm/src/*
 %{_mandir}/man1/*
 %{_mandir}/man5/acct_gather.*
+%{_mandir}/man5/burst_buffer.*
 %{_mandir}/man5/ext_sensors.*
 %{_mandir}/man5/cgroup.*
 %{_mandir}/man5/cray.*
@@ -889,6 +880,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_libdir}/slurm/acct_gather_infiniband_none.so
 %{_libdir}/slurm/acct_gather_energy_none.so
 %{_libdir}/slurm/acct_gather_profile_none.so
+%{_libdir}/slurm/burst_buffer_generic.so
 %{_libdir}/slurm/checkpoint_none.so
 %{_libdir}/slurm/checkpoint_ompi.so
 %{_libdir}/slurm/core_spec_cray.so
@@ -908,6 +900,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_libdir}/slurm/jobcomp_filetxt.so
 %{_libdir}/slurm/jobcomp_none.so
 %{_libdir}/slurm/jobcomp_script.so
+%{_libdir}/slurm/layouts_unit_default.so
 %if ! %{slurm_with bluegene}
 %{_libdir}/slurm/mpi_lam.so
 %{_libdir}/slurm/mpi_mpich1_p4.so
@@ -919,6 +912,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_libdir}/slurm/mpi_pmi2.so
 %endif
 %{_libdir}/slurm/mpi_none.so
+%{_libdir}/slurm/power_none.so
 %{_libdir}/slurm/preempt_job_prio.so
 %{_libdir}/slurm/preempt_none.so
 %{_libdir}/slurm/preempt_partition_prio.so
@@ -945,6 +939,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_libdir}/slurm/switch_none.so
 %{_libdir}/slurm/task_none.so
 %{_libdir}/slurm/topology_3d_torus.so
+%{_libdir}/slurm/topology_hypercube.so
 %{_libdir}/slurm/topology_node_rank.so
 %{_libdir}/slurm/topology_none.so
 %{_libdir}/slurm/topology_tree.so
@@ -1029,13 +1024,6 @@ rm -rf $RPM_BUILD_ROOT
 %endif
 #############################################################################
 
-%if %{slurm_with elasticsearch}
-%files elasticsearch
-%defattr(-,root,root)
-%{_libdir}/slurm/jobcomp_elasticsearch.so
-%endif
-#############################################################################
-
 %pre
 #if [ -x /etc/init.d/slurm ]; then
 #    if /etc/init.d/slurm status | grep -q running; then
@@ -1064,7 +1052,7 @@ fi
 %endif
 
 %preun
-if [ "$1" = 0 ]; then
+if [ "$1" -eq 0 ]; then
     if [ -x /etc/init.d/slurm ]; then
 	[ -x /sbin/chkconfig ] && /sbin/chkconfig --del slurm
 	if /etc/init.d/slurm status | grep -q running; then
@@ -1074,7 +1062,7 @@ if [ "$1" = 0 ]; then
 fi
 
 %preun slurmdbd
-if [ "$1" = 0 ]; then
+if [ "$1" -eq 0 ]; then
     if [ -x /etc/init.d/slurmdbd ]; then
 	[ -x /sbin/chkconfig ] && /sbin/chkconfig --del slurmdbd
 	if /etc/init.d/slurmdbd status | grep -q running; then
@@ -1084,7 +1072,9 @@ if [ "$1" = 0 ]; then
 fi
 
 %postun
-if [ "$1" = 0 ]; then
+if [ "$1" -gt 1 ]; then
+    /etc/init.d/slurm condrestart
+elif [ "$1" -eq 0 ]; then
     if [ -x /sbin/ldconfig ]; then
 	/sbin/ldconfig %{_libdir}
     fi
@@ -1092,6 +1082,11 @@ fi
 %if %{?insserv_cleanup:1}0
 %insserv_cleanup
 %endif
+
+%postun slurmdbd
+if [ "$1" -gt 1 ]; then
+    /etc/init.d/slurmdbd condrestart
+fi
 
 #############################################################################
 
