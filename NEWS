@@ -2,8 +2,8 @@ This file describes changes in recent versions of jobcomp/elasticsearch.
 
 * Changes in jobcomp/elasticsearch v0.7
 =======================================
--- Plugin merged in SLURM master branch so the releases branch from
-this project is removed
+-- Plugin merged in SLURM master branch so no need to install it separetely.
+Plugin will not work with SLURM versions prior to 15.08.0pre1
 -- Added error_cnt variable to launch an error every 100 jobs that failed
 to be inserted into ElasticSearch server
 
