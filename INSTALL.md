@@ -1,9 +1,12 @@
 ## Installation
 
-    # Change directory to your SLURM source directory
-    cd slurm-14.11.6/
-    wget -O jobcomp_es-0.6.tar.gz https://github.com/asanchez1987/jobcomp-elasticsearch/archive/v0.6.tar.gz
-    tar xf ./jobcomp_es-0.6.tar.gz --strip-components=1
+    # This plugin is already merged in the SLURM master branch
+    # so just clone the master branch and use it.
+    # Note that it will just work with SLURM versions 15.08.0pre1 onwards
+    # because in that version the structures with association in them
+    # were changed to assoc to save space.
+    
+    `cd' to the directory containing the package's source code and type
     ./autogen.sh
     ./configure
     # Ensure libcurl is usable:
@@ -20,7 +23,12 @@
 Plugin can be enabled and configured through slurm.conf, here is an example:
 
     JobCompType=jobcomp/elasticsearch
-    JobCompLoc=http://YOUR_ELASTICSEARCH_SERVER:9200
+    JobCompLoc=http://YOUR_ELASTICSEARCH_SERVER:PORT
+    
+    Example:
+    
+    JobCompType=jobcomp/elasticsearch
+    obCompLoc=http://localhost:9200
 
 Make sure that the ElasticSearch server is reachable from the Slurm controller host.
 
