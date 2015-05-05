@@ -1,10 +1,7 @@
 ## Installation
 
-    # This plugin is already merged in the SLURM master branch
-    # so just clone the master branch and use it.
-    # Note that it will just work with SLURM versions 15.08.0pre1 onwards
-    # because in that version the structures with association in them
-    # were changed to assoc to save space.
+This plugin is already merged in the SLURM master branch so just clone the master branch and use it.
+Note that it will just work with SLURM versions 15.08.0pre1 onwards because in 15.08.0pre1 the structures with association in them were changed to assoc to save space.
     
     `cd' to the directory containing the package's source code and type
     ./autogen.sh
