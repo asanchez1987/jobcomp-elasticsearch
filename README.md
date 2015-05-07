@@ -17,6 +17,6 @@ Note that the plugin has **libcurl-devel** library as a dependency, so you can u
 
 Here you can find some [Screenshots](https://github.com/asanchez1987/jobcomp-elasticsearch/wiki/Screenshots).
 
-**NOTE:** Plugin is already merged in the SLURM master branch and ready for SLURM version 15.08. If the plugin is needed to be installed in prior SLURM versions, you should install it separately. Please, refer to  [INSTALL.md](https://github.com/asanchez1987/jobcomp-elasticsearch/blob/master/INSTALL.md) for installation instructions.
+**NOTE:** Plugin is already merged in the SLURM master branch and ready for SLURM version 15.08. **If the plugin is needed to be installed in prior SLURM versions, you should install it separately**. Please, refer to  [INSTALL.md](https://github.com/asanchez1987/jobcomp-elasticsearch/blob/master/INSTALL.md) for installation instructions.
 
 Any suggestions are more than welcome to asanchez1987@gmail.com
