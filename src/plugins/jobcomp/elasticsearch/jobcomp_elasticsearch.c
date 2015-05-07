@@ -100,7 +100,7 @@
  */
 const char plugin_name[] = "Job completion elasticsearch logging plugin";
 const char plugin_type[] = "jobcomp/elasticsearch";
-const uint32_t plugin_version = SLURM_VERSION_NUMBER;
+const uint32_t plugin_version = 100;
 
 #define JOBCOMP_DATA_FORMAT "{\"jobid\":%lu,\"username\":\"%s\","\
 	"\"user_id\":%lu,\"groupname\":\"%s\",\"group_id\":%lu,"\
@@ -818,7 +818,7 @@ extern int slurm_jobcomp_log_record(struct job_record *job_ptr)
 	}
 
 	if (job_ptr->assoc_ptr != NULL) {
-		cluster = ((slurmdb_assoc_rec_t *) job_ptr->assoc_ptr)->cluster;
+		cluster = ((slurmdb_association_rec_t *) job_ptr->assoc_ptr)->cluster;
 		xstrfmtcat(buffer, ",\"cluster\":\"%s\"", cluster);
 	}
 
@@ -890,16 +890,16 @@ extern int slurm_jobcomp_log_record(struct job_record *job_ptr)
 	}
 
 	if (job_ptr->assoc_ptr) {
-		slurmdb_assoc_rec_t assoc_rec, *assoc_ptr;
+		slurmdb_association_rec_t assoc_rec, *assoc_ptr;
 
 		parent_accounts = NULL;
 		acc_aux = NULL;
 		nparents = 0;
 
-		memset(&assoc_rec, 0, sizeof(slurmdb_assoc_rec_t));
+		memset(&assoc_rec, 0, sizeof(slurmdb_association_rec_t));
 		assoc_rec.cluster = xstrdup(cluster);
 		assoc_rec.id =
-		    ((slurmdb_assoc_rec_t *) job_ptr->assoc_ptr)->parent_id;
+		    ((slurmdb_association_rec_t *) job_ptr->assoc_ptr)->parent_id;
 
 		do {
 			assoc_mgr_fill_in_assoc(acct_db_conn, &assoc_rec,
@@ -911,7 +911,7 @@ extern int slurm_jobcomp_log_record(struct job_record *job_ptr)
 			nparents++;
 			assoc_rec.id = assoc_ptr->parent_id;
 			xfree(assoc_rec.cluster);
-			memset(&assoc_rec, 0, sizeof(slurmdb_assoc_rec_t));
+			memset(&assoc_rec, 0, sizeof(slurmdb_association_rec_t));
 			assoc_rec.cluster = xstrdup(cluster);
 			assoc_rec.id = assoc_ptr->parent_id;
 
