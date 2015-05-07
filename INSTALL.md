@@ -4,7 +4,7 @@
 
 On the other hand, if you want this plugin to be installed in SLURM versions PRIOR to 15.08, you should follow the following process:
 
-    `cd' to the directory containing the package's source code and type
+    `cd' to the directory containing the SLURM package's source code and type
     wget -O jobcomp_es-0.7.tar.gz https://github.com/asanchez1987/jobcomp-elasticsearch/archive/v0.7.tar.gz
     tar xf ./jobcomp_es-0.7.tar.gz --strip-components=1
     ./autogen.sh
