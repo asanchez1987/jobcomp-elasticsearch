@@ -12,17 +12,17 @@ to be inserted into ElasticSearch server
 =======================================
 -- Add spec file for RPM generation for slurm version 14.11.6
 -- Minor problems and enhancements by Moe Jette to jobcomp_elasticsearch.c:
--- There were some missing header files includes
--- derived_exitcode needs to be printed as %lu rather than %hu.
--- the fsize variable was set and never read
--- I added some "static" definitions on functions
--- Some compilers report warnings for variables definitions NOT at the start 
+ -- There were some missing header files includes
+ -- derived_exitcode needs to be printed as %lu rather than %hu.
+ -- the fsize variable was set and never read
+ -- I added some "static" definitions on functions
+ -- Some compilers report warnings for variables definitions NOT at the start 
 of a block (I needed to use xmalloc for the pop_marks variable)
--- Some compilers report warnings for the xrealloc return value not used
--- In the log functions you are testing for empty strings, so testing if the 
+ -- Some compilers report warnings for the xrealloc return value not used
+ -- In the log functions you are testing for empty strings, so testing if the 
 first character is '\0' is faster than using strlen()
--- The xstrfmtcat is faster than using a temporary value and copying data
--- slurmdb_association_rec_t was changed to slurmdb_assoc_rec_t
+ -- The xstrfmtcat is faster than using a temporary value and copying data
+ -- slurmdb_association_rec_t was changed to slurmdb_assoc_rec_t
 
 * Changes in jobcomp/elasticsearch v0.5
 =======================================
