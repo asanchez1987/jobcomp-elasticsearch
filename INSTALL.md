@@ -1,6 +1,6 @@
 ## Installation
 
-**Installation process will differ depending on your SLURM version**. So, for SLURM 15.08 onwards, plugin is already merged with SLURM and you should just check that libcurl library is usable and configure the plugin.
+**Installation process will differ depending on your SLURM version**. So, for SLURM 15.08 onwards, plugin is already merged with SLURM and you should just check that **libcurl-devel** library is usable and configure the plugin.
 
 On the other hand, if you want this plugin to be installed in SLURM versions PRIOR to 15.08, you should follow the following process:
 
