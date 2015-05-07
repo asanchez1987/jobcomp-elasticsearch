@@ -1,9 +1,12 @@
 ## Installation
 
-This plugin is already merged in the SLURM master branch so just clone the master branch and use it.
-Note that it will just work with SLURM versions 15.08.0pre1 onwards because in 15.08.0pre1 the structures with association in them were changed to assoc to save space.
-    
+Installation process will differ depending on your SLURM version. So, for SLURM 15.08 onwards, plugin is already merged with SLURM and you should just check that libcurl library is usable.
+
+On the other hand, if you want this plugin to be installed in SLURM versions PRIOR to 15.08, you should follow the following process:
+
     `cd' to the directory containing the package's source code and type
+    wget -O jobcomp_es-0.7.tar.gz https://github.com/asanchez1987/jobcomp-elasticsearch/archive/v0.7.tar.gz
+    tar xf ./jobcomp_es-0.5.tar.gz --strip-components=1
     ./autogen.sh
     ./configure
     # Ensure libcurl is usable:
@@ -16,8 +19,7 @@ Note that it will just work with SLURM versions 15.08.0pre1 onwards because in 1
     make
     make install
 
-
-Plugin can be enabled and configured through slurm.conf, here is an example:
+For any SLURM version the plugin can be enabled and configured through slurm.conf:
 
     JobCompType=jobcomp/elasticsearch
     JobCompLoc=http://YOUR_ELASTICSEARCH_SERVER:PORT
@@ -27,6 +29,6 @@ Plugin can be enabled and configured through slurm.conf, here is an example:
     JobCompType=jobcomp/elasticsearch
     JobCompLoc=http://localhost:9200
 
-Make sure that the ElasticSearch server is reachable from the Slurm controller host.
+Make sure that the ElasticSearch server is reachable from the SLURM controller host.
 
 All the jobs will be stored in the **slurm** index with type **jobcomp**
