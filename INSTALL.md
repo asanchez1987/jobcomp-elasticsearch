@@ -1,8 +1,8 @@
 ## Installation
 
-**Installation process will differ depending on your SLURM version**. So, for **SLURM 15.08 onwards**, plugin is already merged with SLURM and you should just check that **libcurl-devel** library is usable and configure the plugin.
+**IMPORTANT: Installation process will differ depending on your SLURM version**. So, for SLURM 15.08 onwards, plugin is already merged with SLURM and you should just check that **libcurl-devel** library is usable and configure the plugin.
 
-On the other hand, if you want this plugin to be installed in **SLURM versions PRIOR to 15.08**, you should follow the following process:
+On the other hand, if you want this plugin to be installed in SLURM versions PRIOR to 15.08, you should follow the following process:
 
     `cd' to the directory containing the package's source code and type
     wget -O jobcomp_es-0.7.tar.gz https://github.com/asanchez1987/jobcomp-elasticsearch/archive/v0.7.tar.gz
