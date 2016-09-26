@@ -1,4 +1,4 @@
-## Introduciton
+## Introduction
 
 **jobcomp/elasticsearch** is a SLURM job completion plugin that inserts the information related
 to finished jobs (COMPLETED, CANCELLED, FAILED, TIMEOUT or NODE_FAIL) in a custom
