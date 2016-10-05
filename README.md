@@ -19,4 +19,4 @@ Here you can find some [Screenshots](https://github.com/asanchez1987/jobcomp-ela
 
 **NOTE:** Plugin is already merged in the SLURM 15.08 master branch. **If the plugin is needed to be installed in prior SLURM versions, you should install it separately**. Please, refer to  [INSTALL.md](https://github.com/asanchez1987/jobcomp-elasticsearch/blob/master/INSTALL.md) for installation instructions.
 
-Any suggestions are more than welcome to asanchez1987@gmail.com / alejandro.sanchezgraells@bsc.es
+Any suggestions are more than welcome to asanchez1987@gmail.com / alex@schedmd.com
